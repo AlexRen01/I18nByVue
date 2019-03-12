@@ -1,0 +1,2 @@
+# I18nByVue
+本项目是通过Vue和VueI18n来实现前端I18N功能
