@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="js/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="js/bootstrap-table/dist/bootstrap-table.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vue_app" v-cloak>
+        <h3>{{$t('Tips.Hello')}}</h3>
+        <button onclick="switchLang()">{{$t('Tips.Change')}}</button>
+        <table id="table">
+
+        </table>
+    </div>
+</body>
+
+</html>
+<script src="js/jquery-2.1.4.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js//vue/dist/vue.js"></script>
+<script src="js/vue-i18n/dist/vue-i18n.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/bootstrap-table/dist/bootstrap-table.js"></script>
+<script src="js/bootstrap-table/dist/locale/bootstrap-table-cs-I18N.js"></script>
+<script>
+    var btTable = function (options) {
+        var columns = options.columns;
+        for (var i = 0; i < columns.length; i++) {
+            columns[i].title = i18n.messages[i18n.locale].Cloumn[columns[i].field];
+        }
+        options.columns = columns;
+        var defaults = {
+            target: "#table",
+            url: "",
+            method: "post",
+            method: options.type || "post",
+            idField: "Id",
+            columns: [],
+            height: $(window).height() - 261,
+            pageIndex: 1,
+            pageSize: 10,
+            pageList: [10, 20, 50, 100, 500, 'All'],
+            pagination: true,
+            sidePagination: 'server',
+            iconSize: "outline",
+            showRefresh: true,
+            showColumns: true,
+            search: true,
+            singleSelect: false,
+            showExport: true, //是否显示导出
+            exportDataType: "basic", //表示导出的模式是当前页、所有数据还是选中数据
+            queryParams: options.queryParams,
+            onCheck: function (row, $element) { //单选点击
+            },
+            onCheckAll: function (rows) {
+            },
+            onUncheck: function () {
+            },
+            onUncheckAll: function (rows) {
+            }
+        }
+
+        var opts = $.extend({}, defaults, options);
+
+        $(opts.target).bootstrapTable(opts);
+
+    }
+
+
+    $(function () {
+        var data = [{ name: '张三', sex: 0 }, { name: '李四', sex: 1 }, { name: '王五', sex: 0 }, { name: '赵六', sex: 1 }, { name: '孙七', sex: 1 }];
+        var option = {
+            target: "#table",
+            search: false,
+            data: data,
+            queryParams: function (params) {
+                return {
+                    PageIndex: (params.offset / params.limit) + 1,
+                    PageSize: params.limit,
+                    SortFiled: params.sort,
+                    Sort: params.order,
+                    Platform: $("#Platform").val(),
+                    Classification: $("#Classification").val(),
+                    InstrumentType: $("#InstrumentType").val(),
+                    InstrumentID: $("#InstrumentID").val(),
+                    InstrumentName: $("#InstrumentName").val(),
+                    Model: $("#Model").val(),
+                    ManuFacturer: $("#ManuFacturer").val(),
+                    CALDocumentNO: $("#CALDocumentNO").val(),
+                    CapitalAssetsNo: $("#CapitalAssetsNo").val(),
+                    FloorId: $("#FloorId").val(),
+                    RoomId: $("#RoomId").val()
+                };
+            },
+            columns: [
+                {
+                    title: '姓名',
+                    field: 'name',
+                    align: 'center',
+                    valign: 'middle',
+                    width: '150',
+                    sortable: true,
+                },
+                {
+                    title: '性别',
+                    field: 'sex',
+                    align: 'center',
+                    valign: 'middle',
+                    width: '100',
+                    sortable: true,
+                    formatter: function (value) {
+                        return value == 1 ? i18n.messages[i18n.locale].Tips["Man"] : i18n.messages[i18n.locale].Tips["WoMan"];
+                    }
+                }
+            ]
+        }
+        btTable(option);
+    });
+
+
+
+
+</script>

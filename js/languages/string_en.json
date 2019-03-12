@@ -1,0 +1,13 @@
+﻿{
+  "Tips":{
+    "Hello":"Hello",
+    "MyI18n":"This is My I18n",
+    "Man":"Man",
+    "WoMan":"WoMan",
+    "Change":"Change Language"
+  },
+  "Cloumn":{
+    "name":"Name",
+    "sex":"Sex"
+  }
+}
